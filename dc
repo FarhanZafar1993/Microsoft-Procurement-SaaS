@@ -1,0 +1,48 @@
+mermaid
+graph TD
+    subgraph Client_Layer [User Access Layer]
+        A1[Internal Users: MS Teams/Outlook] 
+        A2[Internal Users: Mobile/Web App]
+        A3[External Suppliers: Web Portal]
+    end
+
+    subgraph Experience_Layer [Power Platform & Azure Hosting]
+        direction TB
+        B1[Power Apps: Internal Procurement Logic]
+        B2[Power Pages: Supplier Portal]
+        B3[(Microsoft Dataverse: Central Database)]
+        B4[Power BI: Spend Analytics]
+    end
+
+    subgraph Integration_Layer [Connectivity & Logic]
+        C1[Power Automate / Logic Apps]
+        C2[Azure Key Vault: Security/Secrets]
+        C3[On-Premises Data Gateway]
+    end
+
+    subgraph External_Systems [Third-Party Ecosystem]
+        D1[Oracle ERP]
+        D2[SAP ERP]
+        D3[DocuSign API]
+    end
+
+    %% Connections
+    A1 & A2 <--> B1
+    A3 <--> B2
+    B1 & B2 <--> B3
+    B3 --> B4
+
+    %% Integration Flows
+    B3 <--> C1
+    C1 <--> C2
+    C1 <--> D3
+    
+    %% ERP Two-Way Sync
+    C1 <--> C3
+    C3 <--> D1
+    C3 <--> D2
+
+    %% Styling
+    style B3 fill:#f9f,stroke:#333,stroke-width:2px
+    style Experience_Layer fill:#f0f7ff,stroke:#0078d4
+    style External_Systems fill:#fff4ce,stroke:#ff8c00
